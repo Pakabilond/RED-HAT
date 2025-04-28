@@ -12,16 +12,19 @@ if [[ ! -f "$user_list" ]]; then
   exit 1
 fi
 
-# Loop through each username in the file
-while IFS= read -r user; do
+# Loop through each line in the file (name and surname)
+while IFS=' ' read -r name surname; do
+  # Generate the username by combining the first letter of the name with the surname
+  username="${name:0:1}${surname}"
+  
   # Add the user
-  sudo useradd "$user"
+  sudo useradd "$username"
   
   # Set the default password
-  echo "$user:$default_password" | sudo chpasswd
+  echo "$username:$default_password" | sudo chpasswd
   
   # Force password change on first login
-  sudo passwd --expire "$user"
+  sudo passwd --expire "$username"
   
-  echo "User $user added with default password and password expiration set."
+  echo "User $username added with default password and password expiration set."
 done < "$user_list"
