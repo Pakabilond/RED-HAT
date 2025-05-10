@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Define the number of files to create
+num_files=10
+
+# Loop to create files
+for i in $(seq 1 $num_files)
+do
+    touch "file$i"
+    echo "Created file$i"
+done
+
+echo "All files created successfully!"
